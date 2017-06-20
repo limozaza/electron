@@ -9,6 +9,7 @@
       </div>
       <button type="submit">Get info</button>
     </form>
+    <h1 id='result'></h1>
 
     <script>
       const electron = require('electron');
@@ -17,13 +18,14 @@
 
       document.querySelector('form').addEventListener('submit',(event)=>{
         event.preventDefault();
-
         const { path } = document.querySelector('input').files[0];
-
-        console.log(path);
         ipcRenderer.send('video:submit', path);
-
       });
+
+      ipcRenderer.on('video:metadata', (event,duration)=>{
+        document.querySelector("#result").innerHTML = `Video is ${duration} s`;
+      });
+
     </script>
 
   </body>
